@@ -55,11 +55,11 @@ async function processGPX(filePath) {
   }
 }
 
-processGPX('./gpx/2xxx.gpx');
-processGPX('./gpx/2009.gpx');
-processGPX('./gpx/2010.gpx');
-processGPX('./gpx/2011.gpx');
-processGPX('./gpx/2012.gpx');
-processGPX('./gpx/2013.gpx');
-processGPX('./gpx/2014.gpx');
-processGPX('./gpx/2015.gpx');
+// Check for parameter
+if (process.argv.length < 3) {
+  console.log('Please provide a path to a GPX file as parameter to process.');
+  process.exit(1);
+}
+
+const filename = process.argv[2];
+processGPX(`${filename}`);
