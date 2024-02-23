@@ -1,6 +1,6 @@
 const { find } = require('geo-tz');
 
-async function resolve({ lat, lon }) {
+async function  timezoneResolve({ lat, lon }) {
     // Find the timezone based on lat/lon using geo-tz
     const timeZones = find(lat, lon);
     // Assuming the first timezone is the correct one
@@ -9,4 +9,4 @@ async function resolve({ lat, lon }) {
     return timeZone || 'UTC'; // Fallback to 'UTC' if no timezone found
 }
 
-module.exports = { resolve };
+module.exports = {  timezoneResolve };
