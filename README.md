@@ -13,8 +13,8 @@ The script dynamically adjusts timestamps based on the geographical location, ta
 Clone the repository, then install the necessary dependencies:
 
 ```bash
-git clone https://your-repository-url-here.git
-cd gpx-timezone-corrector
+git clone https://github.com/thoughtgap/gpx-timestamp
+cd gpx-timestamp
 npm install
 ```
 
