@@ -1,9 +1,26 @@
 # GPX Timezone Corrector
 
 The GPX Timezone Corrector is a Node.js script designed to correct timestamps in GPX files.
-Many GPS Receivers (like the Garmin Oregon) and mobile apps save the GPS track timestamps as UTC (indicated as ZULU Time with the Z at the end) but actually mean local time.
+Many GPS Receivers and mobile track recorder apps save the GPS track timestamps by using local time, but adding a UTC 'Z' indicator at the end. When reusing this data, the timestamps get imported as UTC, resulting in an undesired time offset.
 
 The script dynamically adjusts timestamps based on the geographical location, taking into account the correct timezone and daylight saving time adjustments.
+
+## Example
+```xml
+<trk>
+   <trkseg>
+     <trkpt lat="43.291821023449302" lon="-0.369691969826818">
+       <ele>180.92570000000001</ele>
+       <time>2013-07-28T23:07:14Z</time>
+     </trkpt>
+```
+
+For each track segment, the first trackpoint's timezone is determined. The example coordinates are in `Europe/Paris`.
+The date `2013-07-28T23:07:14` (dropping the UTC indicator as it refers to local time) is assigned `Europe/Paris` timezone.
+As it was DST in July 2013, it results in a 2h negative offset to UTC. The result is `2013-07-28T21:07:14Z`.
+The -2h offset will be applied to all trackpoints in the segment.
+For the next segment, the timezone and offset are determined separately.
+
 
 ## Prerequisites
 - Node.js (version 12.x or higher recommended)
