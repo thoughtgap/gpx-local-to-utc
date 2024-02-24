@@ -26,8 +26,11 @@ async function processGPX(filePath) {
 
       // Durchlaufen Sie jeden Track
       for(let i = 0; i < tracks.length; i++) {
+
+          // Determine Track Name if available
+          const trackName = tracks[i].name[0] || `Track ${i+1}`;
           
-          // Get offset from first track segment
+          // Determine UTC offset using the first track point
           const firstTrkSeg = tracks[i].trkseg[0];
           const firstTrkPt = firstTrkSeg.trkpt[0];
 
@@ -35,14 +38,17 @@ async function processGPX(filePath) {
           const lon = firstTrkPt.$.lon
           const time = firstTrkPt.time+"";
 
-          const roundedLat = parseFloat(lat).toFixed(4);
-          const roundedLon = parseFloat(lon).toFixed(4);
-
           let timezone = await timezoneResolve({ lat, lon });
-
           const hoursDiff = timestampHoursDiffString(time, timezone);
 
-          console.log(`${originalFile} - Track ${i+1}/${trackCount} - Time: ${time}, Lat: ${roundedLat}, Lon: ${roundedLon} - ${timezone} Offsetting ${hoursDiff}`);
+
+          // Console Output
+          const trackCountOutput = `${(i+1).toString().padStart(2, ' ')}/${trackCount}`;
+          const roundedLat = parseFloat(lat).toFixed(4).padStart(10, ' ');
+          const roundedLon = parseFloat(lon).toFixed(4).padStart(10, ' ');
+          const timezoneOutput = timezone.padEnd(25, ' ')
+
+          console.log(`${originalFile} ${trackCountOutput}  ${time}  ${roundedLat},${roundedLon}  ${hoursDiff} ${timezoneOutput}  ${trackName}`);
 
           // Adjust the timestamps
           tracks[i].trkseg = correctGpxSegments(tracks[i].trkseg, timezone);
